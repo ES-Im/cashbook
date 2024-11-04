@@ -2,8 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.cashbook.mapper.MemberMapper">
 	<select id="login" parameterType="com.example.cashbook.vo.Member" resultType="com.example.cashbook.vo.Member">
-		SELECT * FROM member 
+		SELECT member_id as memberId FROM member 
 		WHERE member_id=#{memberId} AND member_pw=#{memberPw} 
 	</select>
+	
+	<select id="memberList" parameterType="Map" resultType="com.example.cashbook.vo.Member">
+		SELECT member_id as memberId,
+			   member_pw as memberPw,
+			   birth,
+			   active
+	    FROM member
+	    ORDER BY member_id
+	    LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<select id="getTotalMemberRow" resultType="int">
+		SELECT count(*)	FROM member
+	</select>
+	
+	<update id="updateMember" parameterType="com.example.cashbook.vo.Member">
+		UPDATE 
+		<set>
+			<if test="memberPw != null and memberPw != ''">
+				member_pw = #{memberPw},
+			</if>
+			<if test="birth != null and birth !=''">
+				birth = #{birth},
+			</if>
+			<if test="active != null">
+				active = #{active}
+			</if>
+		</set>
+		WHERE member_id = #{memberId}
+	</update>
 
 </mapper>

@@ -9,4 +9,5 @@ public class Member {
 	private String birth;
 	private String createDate;
 	private String updateDate;
+	private int active;
 }

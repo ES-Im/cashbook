@@ -17,15 +17,14 @@ public class MemberInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 	
-		log.debug(request.getRequestURL().toString() + "Member session exist");
-		
 		HttpSession session = request.getSession();
 		if(session.getAttribute("memberId") != null) {
+			log.debug(request.getRequestURL().toString() + ", Member session exist");
 			response.sendRedirect(request.getContextPath() + "/member/home");
 			return false;
 		}
 		
-		return HandlerInterceptor.super.preHandle(request, response, handler);
+		return true;
 	}
 	
 

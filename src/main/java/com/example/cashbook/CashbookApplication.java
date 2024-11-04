@@ -22,13 +22,12 @@ public class CashbookApplication implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		
-		registry.addInterceptor(adminInterceptor).addPathPatterns("/member/**");
-		registry.addInterceptor(adminInterceptor).addPathPatterns("/off/**");
-		registry.addInterceptor(memberInterceptor).addPathPatterns("/admin/**");
-		registry.addInterceptor(memberInterceptor).addPathPatterns("/off/**");
-		registry.addInterceptor(offInterceptor).addPathPatterns("/admin/**");
-		registry.addInterceptor(offInterceptor).addPathPatterns("/member/**");
+		//adminSession
+		registry.addInterceptor(adminInterceptor).addPathPatterns("/member/**").addPathPatterns("/off/**");
+		//memberSession
+		registry.addInterceptor(memberInterceptor).addPathPatterns("/admin/**").addPathPatterns("/off/**");
+		//offSession
+		registry.addInterceptor(offInterceptor).addPathPatterns("/admin/**").addPathPatterns("/member/**");
 		
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}

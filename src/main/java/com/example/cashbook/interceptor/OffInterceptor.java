@@ -15,14 +15,14 @@ public class OffInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 	
-		log.debug(request.getRequestURL().toString() + "session doesnt exist, offInterceptor run");
 		HttpSession session = request.getSession();
-		if(session.getAttribute("adminId") == null || session.getAttribute("memberId") == null) {
+		if(session.getAttribute("adminId") == null && session.getAttribute("memberId") == null) {
+			log.debug(request.getRequestURL().toString() + ", session doesnt exist, offInterceptor run");
 			response.sendRedirect(request.getContextPath() + "/off/home");
 			return false;
 		}
 		
-		return HandlerInterceptor.super.preHandle(request, response, handler);
+		return true;
 	}
 	
 

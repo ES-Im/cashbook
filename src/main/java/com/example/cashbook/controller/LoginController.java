@@ -22,6 +22,7 @@ public class LoginController {
 	@Autowired MemberMapper memberMapper;
 	@Autowired AdminMapper adminMapper;
 	
+	// Member Session ----------------------------------------------------------------------------------------------
 	@GetMapping("/off/memberLogin")
 	public String memberLogin() {
 		
@@ -29,7 +30,7 @@ public class LoginController {
 	}
 	
 	@PostMapping("/off/memberLogin")
-	public String memberLogin(HttpSession session, Model model, HttpServletRequest request, @RequestParam() String id, @RequestParam() String pw) {
+	public String memberLogin(HttpSession session, Model model, @RequestParam() String id, @RequestParam() String pw) {
 		Member paramMember = new Member();
 		paramMember.setMemberId(id);
 		paramMember.setMemberPw(pw);
@@ -38,7 +39,7 @@ public class LoginController {
 		
 		if(member == null) {
 			log.debug("member Login failed");
-			request.setAttribute("msg", "Login failed, check id or pw");
+			model.addAttribute("msg", "Login failed, check id or pw");
 			return "off/memberLogin";
 		}
 		session.setAttribute("memberId", member);
@@ -46,6 +47,7 @@ public class LoginController {
 		return "redirect:/member/home";
 	}
 	
+	// Admin Session ----------------------------------------------------------------------------------------------
 	@GetMapping("/off/adminLogin")
 	public String adminLogin() {
 		
@@ -70,9 +72,12 @@ public class LoginController {
 		return "redirect:/admin/home";
 	}
 	
+	//Logout -----------------------------------------------------------------------------------------------------------
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
+		log.debug("관리자세션 : " + session.getAttribute("adminId").toString());
+		log.debug("멤버세션 : " + session.getAttribute("memberId").toString());
 		return "redirect:/off/home";
 	}
 }

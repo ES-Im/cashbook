@@ -17,15 +17,14 @@ public class AdminInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 	
-		log.debug(request.getRequestURL().toString() + "Admin session exist");
-		
 		HttpSession session = request.getSession();
 		if(session.getAttribute("adminId") != null) {
+			log.debug(request.getRequestURL().toString() + ", Admin session exist");
 			response.sendRedirect(request.getContextPath() + "/admin/home");
 			return false;
 		}
 		
-		return HandlerInterceptor.super.preHandle(request, response, handler);
+		return true;
 	}
 	
 
