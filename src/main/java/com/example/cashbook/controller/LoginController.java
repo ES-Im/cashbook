@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.cashbook.mapper.AdminMapper;
 import com.example.cashbook.mapper.MemberMapper;
+import com.example.cashbook.service.LoginService;
 import com.example.cashbook.vo.Admin;
 import com.example.cashbook.vo.Member;
 
@@ -19,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class LoginController {
-	@Autowired MemberMapper memberMapper;
-	@Autowired AdminMapper adminMapper;
+	@Autowired LoginService loginService;
+	
 	
 	// Member Session ----------------------------------------------------------------------------------------------
 	@GetMapping("/off/memberLogin")
@@ -35,7 +36,7 @@ public class LoginController {
 		paramMember.setMemberId(id);
 		paramMember.setMemberPw(pw);
 		
-		Member member = memberMapper.login(paramMember);
+		Member member = loginService.login(paramMember);
 		
 		if(member == null) {
 			log.debug("member Login failed");
@@ -60,7 +61,7 @@ public class LoginController {
 		paramAdmin.setAdminId(id);
 		paramAdmin.setAdminPw(pw);
 		
-		Admin admin = adminMapper.login(paramAdmin);
+		Admin admin = loginService.login(paramAdmin);
 		
 		if(admin == null) {
 			log.debug("admin Login failed");
@@ -76,8 +77,6 @@ public class LoginController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		log.debug("관리자세션 : " + session.getAttribute("adminId").toString());
-		log.debug("멤버세션 : " + session.getAttribute("memberId").toString());
 		return "redirect:/off/home";
 	}
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cashbook.mapper.CashMapper">
+	<select id="selectListByMonth" parameterType="com.example.cashbook.vo.CashCalendar" resultType="Map">
+		Select
+         IFNULL(SUM(CASE WHEN kind = 'income' THEN money END), 0) AS income, 
+         IFNULL(SUM(CASE WHEN kind = 'outcome' THEN money END), 0) AS outcome, 
+         IFNULL(SUM(CASE WHEN kind = 'income' THEN money END), 0) - 
+         IFNULL(SUM(CASE WHEN kind = 'outcome' THEN money END), 0) AS total 
+        FROM cash 
+        WHERE member_id = #{memberId} AND Year(cash_date) = #{year} AND Month(cash_date) = #{month} AND DAY(cash_date) = #{day}
+	</select>
+</mapper>

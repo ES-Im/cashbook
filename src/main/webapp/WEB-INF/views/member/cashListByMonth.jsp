@@ -105,41 +105,60 @@
     <body>
 	       <div class="grid-container">
 			  <header class="header">
-			    <div>MemberList</div>
+			    <div>CashBook(Month)</div>
 			  </header>
 			
 			  <aside class="sidenav">
-				  <c:import url="/WEB-INF/views/inc/adminSideNav.jsp"></c:import>
+				  <c:import url="/WEB-INF/views/inc/memberSideNav.jsp"></c:import>
 			  </aside>
 			
 			  <main class="main">
 			    <div class="card">
-			    	<table>
-			    		<tr>
-				    		<td>ID</td>
-				    		<td>PW</td>
-				    		<td>Birth</td>
-				    		<td>active</td>
-			    		</tr>
-			    		<c:forEach var="m" items="${memberList}">
-				    		<tr>
-					    		<td>${m.memberId}</td>
-					    		<td>${m.memberPw}
-						    		<a href="${pageContext.request.contextPath}/admin/editMember?memberId=${m.memberId}&memberPw=${m.memberPw}">
-						    			Change Password
-						    		</a>
-					    		</td>
-					    		<td>${m.birth}</td>
-					    		<td>
-					    			${m.active}
-					    			<a href="${pageContext.request.contextPath}/admin/editMember?memberId=${m.memberId}&active=${m.active}">
-					    				<c:if test="${m.active==1}">Disable</c:if>
-					    				<c:if test="${m.active==2}">Activate</c:if>
-					    			</a>
-				    			</td>
-				    		</tr>
-			    		</c:forEach>
-			    	</table>
+			           <h1>${target.year}년 ${target.month}월</h1>
+        
+				        <table border="1">
+				        	<tr>	
+								<td>일</td>
+								<td>월</td>
+								<td>화</td>
+								<td>수</td>
+								<td>목</td>
+								<td>금</td>
+								<td>토</td>
+				        	</tr>
+				 			<tr>
+				        		<c:forEach var="i" begin="1" end="${target.totalCell}">
+						            <td>
+						            	<%-- 일 표시 --%>
+						            	<div>
+							                <c:choose>
+							                    <c:when test="${(i - beginBlank) < 1 || (i - beginBlank) > lastDay}">
+							                    </c:when>
+							                    <c:otherwise>
+							                    	<a href="${pageContext.request.contextPath}/cash/one?year=${year}&month=${month+1}&date=${i - beginBlank}">
+							                        	${i - beginBlank}
+							                        </a>
+							                        <hr>
+									                 <%-- 날짜별 수입, 지출 개요 --%> 
+									                <div>수입 : ${list[i]["income"] }</div>
+									                <div>지출 : ${list[i]["outcome"] }</div>
+									                <hr>
+									                <div>합계 : ${list[i]["total"] }</div>
+							                    </c:otherwise>
+							                </c:choose>
+						                </div>
+						            </td>
+						            
+						            <c:if test="${i % 7 == 0}">
+						                </tr><tr>
+						            </c:if>
+					      	   </c:forEach>
+					   		</tr>
+				        </table>
+						
+				        <a href="${pageContext.request.contextPath}/cash/monthList?year=${(month == 1) ? year - 1 : year}&month=${(month == 1) ? 12 : month - 1}">이전달</a>
+						<a href="${pageContext.request.contextPath}/cash/monthList?year=${(month == 12) ? year + 1 : year}&month=${(month == 12) ? 1 : month + 1}">다음달</a>									
+			    
 			    </div>
 			  </main>
 			

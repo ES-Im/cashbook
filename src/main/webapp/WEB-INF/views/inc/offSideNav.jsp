@@ -9,6 +9,6 @@
 	  	<a class="nav-link" href="${pageContext.request.contextPath}/off/adminLogin">Admin Login</a>
 	  </li>
   	  <li class="sidenav__list-item">
-	  	<a class="nav-link" href="${pageContext.request.contextPath}/off/Home">Home</a>
+	  	<a class="nav-link" href="${pageContext.request.contextPath}/off/home">Home</a>
 	  </li>
   </ul>

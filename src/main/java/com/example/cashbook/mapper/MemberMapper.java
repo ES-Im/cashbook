@@ -11,6 +11,6 @@ import com.example.cashbook.vo.Member;
 public interface MemberMapper {
 	Member login(Member member);
 	List<Member> memberList(Map<String, Object> map);
-	int getTotalMemberRow();
-	int updateMember(Member member);	// 모든 멤버 (개별)수정용 인터페이스
+	int selectTotalMemberRow();
+	int updateMember(Member member);	
 }
