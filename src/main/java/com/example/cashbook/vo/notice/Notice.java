@@ -1,4 +1,4 @@
-package com.example.cashbook.vo;
+package com.example.cashbook.vo.notice;
 
 import lombok.Data;
 

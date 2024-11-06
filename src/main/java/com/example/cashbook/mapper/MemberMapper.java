@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.cashbook.vo.Member;
+import com.example.cashbook.vo.member.Member;
 
 @Mapper
 public interface MemberMapper {

@@ -1,4 +1,4 @@
-package com.example.cashbook.vo;
+package com.example.cashbook.vo.cash;
 
 import lombok.Data;
 

@@ -16,7 +16,7 @@ public class OffInterceptor implements HandlerInterceptor{
 			throws Exception {
 	
 		HttpSession session = request.getSession();
-		if(session.getAttribute("adminId") == null && session.getAttribute("memberId") == null) {
+		if(session.getAttribute("adminSession") == null && session.getAttribute("memberSession") == null) {
 			log.debug(request.getRequestURL().toString() + ", session doesnt exist, offInterceptor run");
 			response.sendRedirect(request.getContextPath() + "/off/home");
 			return false;

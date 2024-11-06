@@ -18,7 +18,7 @@ public class MemberInterceptor implements HandlerInterceptor{
 			throws Exception {
 	
 		HttpSession session = request.getSession();
-		if(session.getAttribute("memberId") != null) {
+		if(session.getAttribute("memberSession") != null) {
 			log.debug(request.getRequestURL().toString() + ", Member session exist");
 			response.sendRedirect(request.getContextPath() + "/member/home");
 			return false;

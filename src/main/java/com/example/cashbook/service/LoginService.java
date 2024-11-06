@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.cashbook.mapper.AdminMapper;
 import com.example.cashbook.mapper.MemberMapper;
-import com.example.cashbook.vo.Admin;
-import com.example.cashbook.vo.Member;
+import com.example.cashbook.vo.admin.Admin;
+import com.example.cashbook.vo.member.Member;
 
 @Service
 @Transactional

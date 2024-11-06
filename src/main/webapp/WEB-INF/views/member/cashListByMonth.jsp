@@ -114,7 +114,7 @@
 			
 			  <main class="main">
 			    <div class="card">
-			           <h1>${target.year}년 ${target.month}월</h1>
+			           <h1>${year}년 ${month}월</h1>
         
 				        <table border="1">
 				        	<tr>	
@@ -126,38 +126,40 @@
 								<td>금</td>
 								<td>토</td>
 				        	</tr>
-				 			<tr>
-				        		<c:forEach var="i" begin="1" end="${target.totalCell}">
-						            <td>
-						            	<%-- 일 표시 --%>
-						            	<div>
-							                <c:choose>
-							                    <c:when test="${(i - beginBlank) < 1 || (i - beginBlank) > lastDay}">
-							                    </c:when>
-							                    <c:otherwise>
-							                    	<a href="${pageContext.request.contextPath}/cash/one?year=${year}&month=${month+1}&date=${i - beginBlank}">
-							                        	${i - beginBlank}
-							                        </a>
-							                        <hr>
-									                 <%-- 날짜별 수입, 지출 개요 --%> 
-									                <div>수입 : ${list[i]["income"] }</div>
-									                <div>지출 : ${list[i]["outcome"] }</div>
-									                <hr>
-									                <div>합계 : ${list[i]["total"] }</div>
-							                    </c:otherwise>
-							                </c:choose>
-						                </div>
-						            </td>
-						            
-						            <c:if test="${i % 7 == 0}">
-						                </tr><tr>
-						            </c:if>
-					      	   </c:forEach>
-					   		</tr>
+				        	
+				 			 <tr>
+						        <c:forEach var="m" items="${monthCashOutLine}" varStatus="status">
+					                <c:choose>
+					                	<%-- day의 값이 0이면 BeginBlank. 빈 셀 넣기 --%>
+					                    <c:when test="${m.day == 0}">
+					                        <td></td>
+					                    </c:when>
+					                    <c:otherwise>
+					                        <td>
+					                        	<div>
+						                            <a href="${pageContext.request.contextPath}/member/cashListByDate?year=${year}&month=${month+1}&date=${m.day}">
+						                                ${m.day}
+						                            </a>
+					                            </div>
+					                            <hr>
+					                            <%-- 날짜별 수입, 지출 개요 --%> 
+					                            <div>수입 : ${m.income}</div>
+					                            <div>지출 : ${m.outcome}</div>
+					                            <hr>
+					                            <div>합계 : ${m.total}</div>
+					                        </td>
+					                    </c:otherwise>
+					                </c:choose>
+									<%-- 토요일(6))까지 입력한뒤 줄을 닫고, 새로운 행 시작하기 --%>
+						            <c:if test="${status.index % 7 == 6}">
+						                </tr><tr> <!-- 새로운 행 시작 -->
+						            </c:if>  
+						        </c:forEach>
+						    </tr>
 				        </table>
 						
-				        <a href="${pageContext.request.contextPath}/cash/monthList?year=${(month == 1) ? year - 1 : year}&month=${(month == 1) ? 12 : month - 1}">이전달</a>
-						<a href="${pageContext.request.contextPath}/cash/monthList?year=${(month == 12) ? year + 1 : year}&month=${(month == 12) ? 1 : month + 1}">다음달</a>									
+				        <a href="${pageContext.request.contextPath}/member/cashListByMonth?year=${(month == 1) ? year - 1 : year}&month=${(month == 1) ? 12 : month - 1}">이전달</a>
+						<a href="${pageContext.request.contextPath}/member/cashListByMonth?year=${(month == 12) ? year + 1 : year}&month=${(month == 12) ? 1 : month + 1}">다음달</a>									
 			    
 			    </div>
 			  </main>

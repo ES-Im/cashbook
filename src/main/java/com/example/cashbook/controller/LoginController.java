@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.cashbook.mapper.AdminMapper;
 import com.example.cashbook.mapper.MemberMapper;
 import com.example.cashbook.service.LoginService;
-import com.example.cashbook.vo.Admin;
-import com.example.cashbook.vo.Member;
+import com.example.cashbook.vo.admin.Admin;
+import com.example.cashbook.vo.member.Member;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -43,7 +43,7 @@ public class LoginController {
 			model.addAttribute("msg", "Login failed, check id or pw");
 			return "off/memberLogin";
 		}
-		session.setAttribute("memberId", member);
+		session.setAttribute("memberSession", member.getMemberId());
 		log.debug("Login success");
 		return "redirect:/member/home";
 	}
@@ -68,7 +68,7 @@ public class LoginController {
 			request.setAttribute("msg", "Login failed, check id or pw");
 			return "off/adminLogin";
 		}
-		session.setAttribute("adminId", admin);
+		session.setAttribute("adminSession", admin);
 		log.debug("Login success");
 		return "redirect:/admin/home";
 	}

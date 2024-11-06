@@ -18,7 +18,7 @@ public class AdminInterceptor implements HandlerInterceptor{
 			throws Exception {
 	
 		HttpSession session = request.getSession();
-		if(session.getAttribute("adminId") != null) {
+		if(session.getAttribute("adminSession") != null) {
 			log.debug(request.getRequestURL().toString() + ", Admin session exist");
 			response.sendRedirect(request.getContextPath() + "/admin/home");
 			return false;

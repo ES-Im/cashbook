@@ -1,5 +1,6 @@
 package com.example.cashbook.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.cashbook.service.CashService;
-import com.example.cashbook.vo.CashCalendar;
+import com.example.cashbook.vo.cash.CashCalendar;
+import com.example.cashbook.vo.member.Member;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +21,18 @@ public class CashController {
 	
 	@GetMapping("/member/cashListByMonth")
 	public String cashListByMonth(HttpSession session, CashCalendar cashCalendar, Model model) {
-		cashCalendar.setMemberId((String)(session.getAttribute("memberId")));
+		cashCalendar.setMemberId((String) session.getAttribute("memberSession"));
+		//log.debug(cashCalendar.getMemberId().toString());
 		// 원하는 달의 일별 개요 출력
-		Map<String, Object> dayOutline = cashService.getListByMonth(cashCalendar);
+		List<Map<String, Object>> monthCashOutLine = cashService.getListByMonth(cashCalendar);
+		//log.debug(monthCashOutLine.toString());
 		// 원하는 달의 달력 출력
-		Map<String, Integer> target = cashService.getCalendar(cashCalendar);
+		log.debug(cashCalendar.toString());
 		
-		model.addAttribute("target", target);
-		model.addAttribute("dayOutline", dayOutline);
-				
+		int iterationCount = 0;
+		model.addAttribute("monthCashOutLine", monthCashOutLine);
+		model.addAttribute("year", cashCalendar.getYear());
+		model.addAttribute("month",cashCalendar.getMonth());
 		return "member/cashListByMonth";
 	}
 }
