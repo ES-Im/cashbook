@@ -1,13 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.cashbook.mapper.CashMapper">
-	<select id="selectCashOutLineInDate" parameterType="com.example.cashbook.vo.cash.CashCalendar" resultType="Map">
-		Select
+	<select id="selectCashOutLineInDate" parameterType="com.example.cashbook.vo.cash.CashListForm" resultType="Map">
+		SELECT
          IFNULL(SUM(CASE WHEN kind = 'income' THEN money END), 0) AS income, 
          IFNULL(SUM(CASE WHEN kind = 'outcome' THEN money END), 0) AS outcome, 
          IFNULL(SUM(CASE WHEN kind = 'income' THEN money END), 0) - 
          IFNULL(SUM(CASE WHEN kind = 'outcome' THEN money END), 0) AS total 
         FROM cash 
         WHERE member_id = #{memberId} AND Year(cash_date) = #{year} AND Month(cash_date) = #{month} AND DAY(cash_date) = #{day}
+	</select>
+	
+	<select id="selectListByDate" parameterType="com.example.cashbook.vo.cash.CashListForm" resultType="com.example.cashbook.vo.cash.Cash">
+		SELECT 
+			cash_no as cashNo, 
+			member_id memberId, 
+			cash_date cashDate, 
+			kind, 
+			money, 
+			memo, 
+			createdate createDate, 
+			updatedate updateDate
+		FROM cash
+		<where>
+		    <if test="kind != null">
+		        kind LIKE CONCAT('%', #{kind}, '%') AND 
+		    </if>
+		    member_id = #{memberId} AND 
+		    Year(cash_date) = #{year} AND 
+		    Month(cash_date) = #{month} AND 
+		    DAY(cash_date) = #{day}
+		</where>
+	    LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<select id="selectTotalInstance" parameterType="com.example.cashbook.vo.cash.CashListForm" resultType="int">
+		SELECT count(*) 
+		FROM CASH
+		<where>
+			<if test="kind != null">
+			  kind LIKE CONCAT('%', kind, '%') AND 
+		    </if>
+			  member_id = #{memberId} AND 
+			  Year(cash_date) = #{year} AND 
+			  Month(cash_date) = #{month} AND 
+			  DAY(cash_date) = #{day}
+	    </where>
 	</select>
 </mapper>

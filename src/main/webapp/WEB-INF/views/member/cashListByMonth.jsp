@@ -93,10 +93,13 @@
 			.footer {
 			  grid-area: footer;
 			  display: flex;
-			  align-items: center;
 			  justify-content: space-between;
 			  padding: 0 16px;
 			  background-color: #648ca6;
+			}
+			
+			a{
+				text-decoration: none;
 			}
 		</Style>
 		<title></title>
@@ -114,18 +117,28 @@
 			
 			  <main class="main">
 			    <div class="card">
-			           <h1>${year}년 ${month}월</h1>
-        
-				        <table border="1">
+			    	<div class="col">
+			    	   <a class="btn btn-outline-primary"  href="${pageContext.request.contextPath}/member/cashListByMonth?year=${(month == 1) ? year - 1 : year}&month=${(month == 1) ? 12 : month - 1}">
+			    	   		◀
+			    	   </a>
+			           <strong style="margin: 10px">${year}년 ${month}월</strong>
+			           <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/member/cashListByMonth?year=${(month == 12) ? year + 1 : year}&month=${(month == 12) ? 1 : month + 1}">
+			           		▶
+			           </a>
+        			</div>
+        			<br>
+				        <table class="table table-bordered table-hover table-primary">
+				        	<thead class="table-dark">
 				        	<tr>	
-								<td>일</td>
-								<td>월</td>
-								<td>화</td>
-								<td>수</td>
-								<td>목</td>
-								<td>금</td>
-								<td>토</td>
+								<td>Su</td>
+								<td>Mo</td>
+								<td>Tu</td>
+								<td>We</td>
+								<td>Fh</td>
+								<td>Fr</td>
+								<td>Su</td>
 				        	</tr>
+				        	</thead>
 				        	
 				 			 <tr>
 						        <c:forEach var="m" items="${monthCashOutLine}" varStatus="status">
@@ -136,17 +149,17 @@
 					                    </c:when>
 					                    <c:otherwise>
 					                        <td>
-					                        	<div>
-						                            <a href="${pageContext.request.contextPath}/member/cashListByDate?year=${year}&month=${month+1}&date=${m.day}">
+					                    		<a class="link-dark" href="${pageContext.request.contextPath}/member/cashListByDate?year=${year}&month=${month}&day=${m.day}">
+						                        	<strong>
 						                                ${m.day}
-						                            </a>
-					                            </div>
-					                            <hr>
-					                            <%-- 날짜별 수입, 지출 개요 --%> 
-					                            <div>수입 : ${m.income}</div>
-					                            <div>지출 : ${m.outcome}</div>
-					                            <hr>
-					                            <div>합계 : ${m.total}</div>
+						                            </strong>
+						                            <hr>
+						                            <%-- 날짜별 수입, 지출 개요 --%> 
+						                            <div>수입 : ${m.income}</div>
+						                            <div>지출 : ${m.outcome}</div>
+						                            <hr>
+						                            <div>합계 : ${m.total}</div>
+					                          </a>
 					                        </td>
 					                    </c:otherwise>
 					                </c:choose>
@@ -158,10 +171,10 @@
 						    </tr>
 				        </table>
 						
-				        <a href="${pageContext.request.contextPath}/member/cashListByMonth?year=${(month == 1) ? year - 1 : year}&month=${(month == 1) ? 12 : month - 1}">이전달</a>
-						<a href="${pageContext.request.contextPath}/member/cashListByMonth?year=${(month == 12) ? year + 1 : year}&month=${(month == 12) ? 1 : month + 1}">다음달</a>									
 			    
 			    </div>
+				       
+															
 			  </main>
 			
 			  <footer class="footer">
