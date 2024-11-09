@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cashbook.mapper.FileMapper">
+	<select id="selectCashFileList" parameterType="com.example.cashbook.vo.file.FileForm" resultType="com.example.cashbook.vo.cash.CashFile">
+		SELECT
+			cash_file_no cashFileNo, 
+			cash_no cashNo, 
+			originname originName,
+			filename fileName, 
+			ext, 
+			content_type contentType, 
+			size, 
+			create_date createDate
+		FROM cash_file
+		<where>
+			<if test="cashFileNo != null">
+				cash_file_no = #{cashFileNo}
+			</if>
+			cash_no = #{cashNo}
+		</where>
+	</select>
+</mapper>

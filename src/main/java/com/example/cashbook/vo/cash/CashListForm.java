@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 @Data
 public class CashListForm {
+	private Integer cashNo;
+	
 	private String memberId;
 	private int income;
 	private int outcome;

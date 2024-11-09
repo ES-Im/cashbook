@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.cashbook.service.CashService;
+import com.example.cashbook.service.FileService;
 import com.example.cashbook.vo.cash.Cash;
+import com.example.cashbook.vo.cash.CashFile;
 import com.example.cashbook.vo.cash.CashListForm;
+import com.example.cashbook.vo.file.FileForm;
 import com.example.cashbook.vo.member.Member;
 
 import jakarta.servlet.http.HttpSession;
@@ -20,7 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class CashController {
 	@Autowired CashService cashService;
+	@Autowired FileService fileService;
 	
+	// 월별 캐시달력 출력 (일별 자금흐름 개요)
 	@GetMapping("/member/cashListByMonth")
 	public String cashListByMonth(Model model, HttpSession session, CashListForm CashListForm) {
 		CashListForm.setMemberId((String) session.getAttribute("memberSession"));
@@ -38,9 +43,9 @@ public class CashController {
 		return "member/cashListByMonth";
 	}
 	
-	
+	// 일별 캐시리스트 출력
 	@GetMapping("/member/cashListByDate")
-	public String getCashListByDate(Model model, HttpSession session, CashListForm cashListForm) {
+	public String getCashByDate(Model model, HttpSession session, CashListForm cashListForm, FileForm filmform) {
 		cashListForm.setMemberId((String) session.getAttribute("memberSession"));
 		
 		//log.debug("getCurrentPage = " + cashListForm.getCurrentPage());
@@ -55,6 +60,30 @@ public class CashController {
 		model.addAttribute("lastPage", lastPage);
 		//log.debug("cashListByDate = " + cashListByDate);
 		//log.debug("lastPage = " + lastPage);
+		
+		// 특정 캐시 데이터 조회 + 영수증 이미지 출력
+		if(filmform.getCashNo() != null) {
+			List<CashFile> fileList = fileService.getCashFileList(filmform);
+			Cash cash = cashService.getCashOne(filmform.getCashNo());
+			model.addAttribute("filmform", filmform);
+			model.addAttribute("cash", cash);
+			model.addAttribute("fileList", fileList);
+		}
+		
 		return "member/cashListByDate";
 	}
+	
+	
+	
+//	// 특정 캐시 데이터 조회 + 영수증 이미지 출력
+//	@GetMapping("/member/cashOne")
+//	public String getCashOne(Model model, @RequestParam int cashNo) {
+//		List<CashFile> fileList = fileService.getCashFileList(cashNo);
+//		Cash cash = cashService.getCashOne(cashNo);
+//		
+//		model.addAttribute("cash", cash);
+//		model.addAttribute("fileList", fileList);
+//		return "on/cashOne";
+//	}
+	
 }

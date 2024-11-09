@@ -62,9 +62,10 @@ public class CashService {
 	// URL : CashController/getCashListByDate - 일별 가계부 리스트 
 	public List<Cash> getListByDate(CashListForm cashListForm) {
 		List<Cash> cashListByDate = cashMapper.selectListByDate(cashListForm);
-		log.debug("서비스 =" + cashListForm.getBeginRow());
+		//log.debug("서비스 =" + cashListForm.getBeginRow());
 		return cashListByDate;
 	}
+	
 	// URL : CashController/getCashListByDate - 일별 가계부 리스트의 라스트 페이지 
 	public int getLastPageOnDate(CashListForm cashListForm) {
 		int totalInstance = cashMapper.selectTotalInstance(cashListForm);
@@ -75,6 +76,12 @@ public class CashService {
 		
 		return lastPage;
 	}
+	
+	// URL : CashController/getCashOne - 특정 캐시정보 출력
+	public Cash getCashOne(Integer cashNo) {
+		return cashMapper.selectCashOne(cashNo);
+	}
+
 
 	
 }

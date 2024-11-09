@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.cashbook.vo.cash.Cash;
 import com.example.cashbook.vo.cash.CashListForm;
@@ -16,4 +17,7 @@ public interface CashMapper {
 	List<Cash> selectListByDate(CashListForm cashListForm);
 	// /member/cashListByDate : LastPage 변수 구하는데 사용(총 인스턴스 수 구하기)
 	int selectTotalInstance(CashListForm cashListForm);
+	// /member/cashOne : 특정 캐시정보 출력
+	Cash selectCashOne(int cashNo);
+
 }

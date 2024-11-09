@@ -47,4 +47,18 @@
 			  DAY(cash_date) = #{day}
 	    </where>
 	</select>
+	
+	<select id="selectCashOne" parameterType="int" resultType="com.example.cashbook.vo.cash.Cash">
+		SELECT
+			cash_no as cashNo, 
+			member_id memberId, 
+			cash_date cashDate, 
+			kind, 
+			money, 
+			memo, 
+			createdate createDate, 
+			updatedate updateDate
+		FROM cash
+		WHERE cash_no=#{cashNo}
+	</select>
 </mapper>

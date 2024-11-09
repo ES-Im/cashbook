@@ -16,6 +16,7 @@
 			  font-family: 'Open Sans', Helvetica, sans-serif;
 			  box-sizing: border-box;
 			}
+
 			
 			.grid-container {
 			  display: grid;
@@ -98,6 +99,8 @@
 			  padding: 0 16px;
 			  background-color: #648ca6;
 			}
+			
+
 		</Style>
 		<title></title>
     </head>
@@ -111,115 +114,214 @@
 		  <aside class="sidenav">
 			  <c:import url="/WEB-INF/views/inc/memberSideNav.jsp"></c:import>
 		  </aside>
-		
-		  <main class="main">
-		  	 <%-- 일별 캐시리스트 --%>
-	        <div class="card">
-	         	<%-- kind선택, rowPerPage 변경, ADD 버튼 --%>
-			    <div class="d-flex justify-content-between">
-				        <div class="dropdown">
-		                <button id="" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-					        Kind
-					    </button>
-			            <ul class="dropdown-menu">
-				            <li>
-				            	<a class="dropdown-item" href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&rowPerPage=${cashListForm.rowPerPage}&kind=income">
-				            		수입</a>
-			            	</li>
-							<li>
-								<a class="dropdown-item" href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&rowPerPage=${cashListForm.rowPerPage}&kind=outcome">
-									지출</a>
-							</li>
-						</ul>
-					</div>
-				    <span>
-			            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&rowPerPage=5" class="mx-2">
-			            	5Page
-			            </a>
-			            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&rowPerPage=10" class="mx-2">
-			            	10Page
-			            </a>
-
-			            <a class="btn btn-primary justify-content-end" href="${pageContext.request.contextPath}/member/addCashData?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}">
-			                ADD
-			            </a>
-       			    </span>
+		  
+		  
+			  <main class="main">
+			  	 <%-- 일별 캐시리스트 --%>
+		        <div class="card row d-flex justify-content-between">
+		         	<%-- kind선택, rowPerPage 변경, ADD 버튼 --%>
+				    <div class="d-flex justify-content-between">
+					        <div class="dropdown">
+			                <button id="" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+						        Kind
+						    </button>
+				            <ul class="dropdown-menu">
+					            <li>
+					            	<a class="dropdown-item" href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&rowPerPage=${cashListForm.rowPerPage}&kind=income">
+					            		수입</a>
+				            	</li>
+								<li>
+									<a class="dropdown-item" href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&rowPerPage=${cashListForm.rowPerPage}&kind=outcome">
+										지출</a>
+								</li>
+							</ul>
+						</div>
+					    <span>
+				            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&rowPerPage=5" class="mx-2">
+				            	5Page
+				            </a>
+				            <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&rowPerPage=10" class="mx-2">
+				            	10Page
+				            </a>
+	
+				            <a class="btn btn-primary justify-content-end" href="${pageContext.request.contextPath}/member/addCashData?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}">
+				                ADD
+				            </a>
+	       			    </span>
+				    </div>
+				    <hr>
+				    <%-- 리스트 --%>
+			    	<table class="table table-striped">
+			    		<thead class="table-dark">
+				    		<tr>
+				    			<th>CashDate</th>
+				    			<th>Kind</th>
+				    			<th>Money</th>
+				    			<th>Memo</th>
+				    			<th>CreateDate</th>
+				    			<th>UpdateDate</th>
+				    			<th>View</th>
+				    			<th>Edit</th>
+				    			<th>Delete</th>
+				    		</tr>
+			    		</thead>
+			    		<c:choose>
+			    			<c:when test="${cashListByDate.size() > 0}">
+					    		<c:forEach var="c" items="${cashListByDate}">
+						    		<tr>
+						    			<td>${c.cashDate}</td>
+						    			<td>${c.kind}</td>
+						    			<td>${c.money}</td>
+						    			<td>${c.memo}</td>
+						    			<td>${c.createDate}</td>
+						    			<td>${c.updateDate}</td>
+						    			<td>
+							    			<a class="btn btn-outline-primary"  href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&cashNo=${c.cashNo}">
+								    	   		View
+								    	   </a>
+						    			</td>
+						    			<td>
+							    			<a class="btn btn-outline-primary"  href="${pageContext.request.contextPath}/member/editCashData?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&cashNo=${c.cashNo}">
+								    	   		EDIT
+								    	   </a>
+						    			</td>
+						    			<td>
+						    				<a class="btn btn-outline-primary"  href="${pageContext.request.contextPath}/member/deleteCashData?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&cashNo=${c.cashNo}">
+								    	   		DELETE
+								    	    </a>
+						    			</td>
+						    			
+						    		</tr>
+			    				</c:forEach>
+				    		</c:when>
+				    		<c:otherwise>
+				    			<tr>
+				    				<td colspan="8">NO DATA</td>
+				    			</tr>
+				    		</c:otherwise>
+			    		</c:choose>
+			    	</table>
+			    	<hr>
+			    	<%-- 페이지 네비게이션 --%>
+			    	<div class="col">
+			    		<c:if test="${cashListForm.currentPage > 1}">
+					    	<a class="btn btn-primary"  href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&currentPage=${cashListForm.currentPage-1}&rowPerPage=${cashListForm.rowPerPage}">
+					    	   		◀
+				    	    </a>
+			    	    </c:if>
+			    	    
+			            <strong style="margin: 10px">[현재페이지 : ${cashListForm.currentPage}/ ${lastPage}]</strong>
+			            <c:if test="${cashListForm.currentPage != lastPage}">
+				            <a class="btn btn-primary"  href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&currentPage=${cashListForm.currentPage+1}&rowPerPage=${cashListForm.rowPerPage}">
+				            		▶
+				            </a>
+			            </c:if>
+		            </div>
 			    </div>
-			    <hr>
-			    <%-- 리스트 --%>
-		    	<table class="table table-striped">
-		    		<thead class="table-dark">
-			    		<tr>
-			    			<th>CashDate</th>
-			    			<th>Kind</th>
-			    			<th>Money</th>
-			    			<th>Memo</th>
-			    			<th>CreateDate</th>
-			    			<th>UpdateDate</th>
-			    			<th>View</th>
-			    			<th>Edit</th>
-			    			<th>Delete</th>
-			    		</tr>
-		    		</thead>
-		    		<c:choose>
-		    			<c:when test="${cashListByDate.size() > 0}">
-				    		<c:forEach var="c" items="${cashListByDate}">
-					    		<tr>
-					    			<td>${c.cashDate}</td>
-					    			<td>${c.kind}</td>
-					    			<td>${c.money}</td>
-					    			<td>${c.memo}</td>
-					    			<td>${c.createDate}</td>
-					    			<td>${c.updateDate}</td>
-					    			<td>
-						    			<a class="btn btn-outline-primary"  href="${pageContext.request.contextPath}/member/cashOne?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&cashNo=${c.cashNo}">
-							    	   		View
-							    	   </a>
-					    			</td>
-					    			<td>
-						    			<a class="btn btn-outline-primary"  href="${pageContext.request.contextPath}/member/editCashData?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&cashNo=${c.cashNo}">
-							    	   		EDIT
-							    	   </a>
-					    			</td>
-					    			<td>
-					    				<a class="btn btn-outline-primary"  href="${pageContext.request.contextPath}/member/deleteCashData?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&cashNo=${c.cashNo}">
-							    	   		DELETE
-							    	    </a>
-					    			</td>
-					    			
-					    		</tr>
-		    				</c:forEach>
-			    		</c:when>
-			    		<c:otherwise>
-			    			<tr>
-			    				<td colspan="8">NO DATA</td>
-			    			</tr>
-			    		</c:otherwise>
-		    		</c:choose>
-		    	</table>
-		    	<hr>
-		    	<%-- 페이지 네비게이션 --%>
-		    	<div class="col">
-		    		<c:if test="${cashListForm.currentPage > 1}">
-				    	<a class="btn btn-primary"  href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&currentPage=${cashListForm.currentPage-1}&rowPerPage=${cashListForm.rowPerPage}">
-				    	   		◀
-			    	    </a>
-		    	    </c:if>
-		    	    
-		            <strong style="margin: 10px">[현재페이지 : ${cashListForm.currentPage}/ ${lastPage}]</strong>
-		            <c:if test="${cashListForm.currentPage != lastPage}">
-			            <a class="btn btn-primary"  href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&currentPage=${cashListForm.currentPage+1}&rowPerPage=${cashListForm.rowPerPage}">
-			            		▶
-			            </a>
-		            </c:if>
-	            </div>
-		    </div>
-		    
-         	<%-- 일별 가계부 상세보기 --%>
-		    <div class="card">
-	         	
-         	</div>
-		  </main>
+			    
+		  		<c:if test="${cashListForm.cashNo != null}">    
+	         	<%-- 일별 가계부 상세보기 --%>
+				    	<div class="row d-flex justify-content-between">
+				    		<%-- String 정보 --%>
+				    		<div class="card col-xl-4" style="min-width: 40%">
+					         	<table class="table table-striped table-bordered">
+       					    		<thead class="table-dark">
+					    				<tr>
+					    					<th>Category</th>
+					    					<th>Content</th>
+				    					</tr>
+			    					</thead>
+						    		<tr>
+						    			<td>Kind</td>
+										<td>${cash.kind}</td>					    			
+					    			</tr>
+						    		<tr>
+						    			<td>money</td>
+										<td>${cash.money}</td>					    			
+					    			</tr>
+						    		<tr>
+						    			<td>memo</td>
+										<td>${cash.memo}</td>					    			
+					    			</tr>
+						    		<tr>
+						    			<td>createDate</td>
+										<td>${cash.createDate}</td>					    			
+					    			</tr>
+						    		<tr>
+						    			<td>updateDate</td>
+										<td>${cash.updateDate}</td>					    			
+					    			</tr>
+				    			</table>
+			    			</div>
+
+			    			<%-- 영수증 사진 출력 --%>
+			    			<div class="card col-xl-4" style="min-width: 59%">
+			    				<c:if test="${empty fileList}">
+			    					<div>No Content</div>
+			    				</c:if>
+			    				<c:if test="${!empty fileList}">
+			    					<c:if test="${filmform.cashFileNo == null}">
+										<div class="dropdown">
+											<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+										  		Select File
+											</button>
+											<c:forEach var="f" items="${fileList}">
+												<ul class="dropdown-menu">
+												  	<li>
+												  		<a class="dropdown-item" href="${pageContext.request.contextPath}/member/cashListByDate?year=${cashListForm.year}&month=${cashListForm.month}&day=${cashListForm.day}&cashNo=${f.cashNo}&fileNo=${f.fileNo}">
+												  			${f.fileName}.${f.ext}
+												  		</a>
+											  		</li>
+												</ul>
+											</c:forEach>
+										</div>				    					
+			    					</c:if>
+			    					<%-- 드롭다운에서 파일 선택시 출력 --%>
+			    					<c:if test="${filmform.cashFileNo != null}">
+				    					<table class="table table-striped table-bordered">
+		       					    		<thead class="table-dark">
+							    				<tr>
+							    					<th>Category</th>
+							    					<th>Content</th>
+						    					</tr>
+					    					</thead>
+					    					<c:forEach var="f" items="${fileList}">
+						    					<tr>
+						    						<td rowspan="2">
+						    							<img src="${pageContext.request.contextPath}/upload/${f.filName}.${f.ext}">
+						    						</td>
+						    					</tr>
+									    		<tr>
+									    			<td>OriginName</td>
+													<td>${f.originName}</td>					    			
+								    			</tr>
+									    		<tr>
+									    			<td>FileName.ext</td>
+													<td>${f.fileName}.${f.ext}</td>					    			
+								    			</tr>
+									    		<tr>
+									    			<td>ContentType</td>
+													<td>${f.contentType}</td>					    			
+								    			</tr>
+									    		<tr>
+									    			<td>Size</td>
+													<td>${f.size}</td>					    			
+								    			</tr>
+									    		<tr>
+									    			<td>CreateDate</td>
+													<td>${f.createDate}</td>					    			
+								    			</tr>
+							    			</c:forEach>
+					    				</table>
+				    				</c:if>
+			    				</c:if>
+			    			</div>
+			    			
+			    			
+		    			</div>
+  	            </c:if>
+  	            
+			  </main>
 			
 			
 			
